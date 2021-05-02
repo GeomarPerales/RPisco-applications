@@ -1,6 +1,6 @@
 ---
 title: "RPisco - study case using maximum temperature"
-output: pdf_document
+output: html_document
 vignette: >
   %\VignetteIndexEntry{RPisco}
   %\VignetteEngine{knitr::rmarkdown}
@@ -67,34 +67,23 @@ head(Huarpa.stations)
 
 ```{r}
 PISCO.file <- "D:\\PISCOm_tmx_v1.1.nc"
-
-monthly.data <- list()
-monthly.matrix <- data.frame(matrix(NA, 432, nrow(Huarpa.stations)))
-for (i in 1:nrow(Huarpa.stations)) {
-  monthly.data[[i]] <- piscom(data.frame(PISCO.file, Huarpa.stations$Lon[i], Huarpa.stations$Lat[i]))
-  monthly.matrix[,i] <- monthly.data[[i]]$values
-}
-colnames(monthly.matrix) <- Huarpa.stations$Estacion
-head(monthly.matrix)
+monthly.data <- piscomgroup(data.frame(PISCO.file, Huarpa.stations))
+head(monthly.data)
 ```
 
 - **Monthly average of San Miguel station - Promedio mensual de la estación San Miguel**
 
 ```{r}
-ini.yr <- as.Date("1981-01-01")
-end.yr <- as.Date("2016-12-01")
-date <- seq(ini.yr, end.yr, by = "months")
-monthly.matrix <- data.frame(date, monthly.matrix)
-monthlyavg(data.frame(monthly.matrix$date, monthly.matrix[,2]), variable = "temperature")
+monthlyavg(data.frame(monthly.data$date, monthly.data[,2]), variable = "temperature")
 ```
 
 - **Yearly average of San Miguel station - Promedio anual de la estación San Miguel**
 ```{r}
-yearlyavg(data.frame(monthly.matrix$date, monthly.matrix[,2]), variable = "temperature")
+yearlyavg(data.frame(monthly.data$date, monthly.data[,2]), variable = "temperature")
 ```
 - **Annual serie of San Miguel station - serie anual de la estación San Miguel**
 ```{r}
-head(pisco2annual(data.frame(monthly.matrix$date, monthly.matrix[,2]), variable = "temperature"))
+head(pisco2annual(data.frame(monthly.data$date, monthly.data[,2]), variable = "temperature"))
 ```
 
 **5. References - Referencias**
