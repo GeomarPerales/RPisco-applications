@@ -1,0 +1,54 @@
+---
+title: "RPisco - extracción de datos PISCO"
+output: html_document
+vignette: >
+  %\VignetteIndexEntry{RPisco}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(error = TRUE)
+```
+
+# **Usando la librería RPisco para extraer datos PISCO de precipitación**
+
+**1. Extracción de datos diarios**
+
+```{r}
+library(openxlsx)
+library(RPisco)
+PISCO.file <- "D:\\PISCOd_pp_2.1.nc"
+x <- data.frame(PISCO.file, -76.11, -13.11)
+data.diaria <- piscod(x)
+head(data.diaria) 
+```
+
+**2. Extracción de datos mensuales**
+```{r}
+PISCO.file <- "D:\\PISCOm_pp_2.1.nc"
+x <- data.frame(PISCO.file, -76.11, -13.11)
+data.mensual <- piscom(x)
+head(data.mensual)
+```
+
+**3. Exportación de resultados**
+```{r}
+write.xlsx(data.diaria,"D:\\data.diaria.xlsx")
+write.xlsx(data.mensual,"D:\\data.mensual.xlsx")
+```
+
+**4. Créditos**
+
+RPisco fue desarrollado por Geomar Perales. Para alguna duda o sugerencia: perales.geomar@gmail.com
+
+**5. ¿Como citar la librería?**
+
+Perales, G. 2021. RPisco: RPisco package is a library with tools for manipulate PISCO data of SENAMHI (Peru). GitHub repository: https://github.com/GeomarPerales/RPisco
+
+**6. Referencias**
+
+Aybar. (2017). Uso del producto grillado PISCO de precipitación en estudios, investigaciones sistemas operacionales de monitoreo y pronóstico hidrometeorológico. Lima: SENAMHI.
+
+
+
